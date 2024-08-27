@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zimmer Formular</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        /* Optional: Custom styles */
+        body {
+            padding: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 th:text="${room.id != null ? 'Zimmer bearbeiten' : 'Neues Zimmer erstellen'}">Zimmer Formular</h1>
+
+        <form th:action="@{/rooms/save}" th:object="${room}" method="post">
+
+            <!-- Ausgeblendetes Feld für Zimmer-ID (nur bei Bearbeitung) -->
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-group mb-3">
+                <label for="roomNumber">Zimmernummer:</label>
+                <input type="text" id="roomNumber" name="roomNumber" class="form-control" th:field="*{roomNumber}"
+                    required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="type">Typ</label>
+                <input type="text" th:field="*{type}" class="form-control" id="type" placeholder="Zimmer Typ" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="price">Preis</label>
+                <input type="number" th:field="*{price}" class="form-control" id="price" placeholder="Preis" step="0.01"
+                    required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="hotel">Hotel</label>
+                <select th:field="*{hotel.id}" class="form-control" id="hotel" required>
+                    <option value="" disabled selected>Wählen Sie ein Hotel</option>
+                    <option th:each="hotel : ${hotels}" th:value="${hotel.id}" th:text="${hotel.name}"
+                        th:selected="${room.hotel != null and room.hotel.id == hotel.id}">
+                        Hotel Name
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Speichern</button>
+            <a th:href="@{/rooms}" class="btn btn-secondary">Abbrechen</a>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hotelliste</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container p-2">
+        <h1>Hotelliste</h1>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Stadt</th>
+                    <th>Adresse</th>
+                    <th>Zimmer</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iteriere über die Liste der Hotels und zeige jedes Hotel an -->
+                <tr th:each="hotel : ${hotels}">
+                    <td th:text="${hotel.name}">Hotel Name</td>
+                    <td th:text="${hotel.city}">Stadt</td>
+                    <td th:text="${hotel.address}">Adresse</td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{/hotels/rooms/{id}(id=${hotel.id})}">Zimmerliste</a>
+                    </td>
+                    <td>
+                        <!-- Buttons für Details, Bearbeiten und Löschen -->
+                        <a class="btn btn-primary" th:href="@{/hotels/{id}(id=${hotel.id})}">Details</a>
+                        <a class="btn btn-secondary" th:href="@{/hotels/edit/{id}(id=${hotel.id})}">Bearbeiten</a>
+                        <a class="btn btn-danger" th:href="@{/hotels/delete/{id}(id=${hotel.id})}"
+                            onclick="return confirm('Sind Sie sicher, dass Sie dieses Hotel löschen möchten?')">Löschen</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Button zum Hinzufügen eines neuen Hotels -->
+        <a class="btn btn-success" th:href="@{/hotels/new}">Neues Hotel hinzufügen</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
