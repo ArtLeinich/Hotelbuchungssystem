@@ -1,20 +1,20 @@
-# Используем официальный образ OpenJDK как базовый образ
+# Verwenden des offiziellen OpenJDK-Images als Basisbild
 FROM openjdk:17-jdk-slim
 
-# Устанавливаем рабочую директорию в контейнере
+# Arbeitsverzeichnis im Container festlegen
 WORKDIR /app
 
-# Копируем Maven Wrapper и исходные файлы
+# Maven Wrapper und Quellcodedateien kopieren
 COPY .mvn/ .mvn/
 COPY mvnw .
 COPY pom.xml .
 COPY src ./src
 
-# Скачиваем зависимости и собираем приложение
+# Abhängigkeiten herunterladen und Anwendung bauen
 RUN ./mvnw clean package -DskipTests
 
-# Экспонируем порт 8080 для доступа к приложению
+# Port 8080 für den Zugriff auf die Anwendung freigeben
 EXPOSE 8080
 
-# Запуск приложения
+# Anwendung starten
 CMD ["java", "-jar", "target/hotelreservierungsapp-0.0.1-SNAPSHOT.jar"]
